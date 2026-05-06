@@ -1,0 +1,204 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e503648634f46734c8b22d7ed9ba0853, type: 3}
+  m_Name: Color
+  m_EditorClassIdentifier: Assembly-CSharp::ColorSettings
+  textureResolution: 512
+  debugMode: 1
+  oceanSettings:
+    oceanGradient:
+      serializedVersion: 2
+      key0: {r: 0, g: 1, b: 0, a: 1}
+      key1: {r: 0.9043479, g: 1, b: 0.5419281, a: 1}
+      key2: {r: 0.9043479, g: 1, b: 0.5419281, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    oceanNormalMap: {fileID: 2800000, guid: cf5d4e06c47cac740a18937652b99f13, type: 3}
+    waveSpeed: 0.02
+    waveScale: 0.5
+    normalStrength: 4
+  biomeSettings:
+    blendAmount: 0.25470334
+    biomes:
+    - gradient:
+        serializedVersion: 2
+        key0: {r: 0.17048892, g: 0.30651137, b: 0.05140863, a: 0.33507878}
+        key1: {r: 1, g: 0, b: 0, a: 0.15940031}
+        key2: {r: 0, g: 0, b: 0, a: 0}
+        key3: {r: 0, g: 0, b: 0, a: 0}
+        key4: {r: 0, g: 0, b: 0, a: 0}
+        key5: {r: 0, g: 0, b: 0, a: 0}
+        key6: {r: 0, g: 0, b: 0, a: 0}
+        key7: {r: 0, g: 0, b: 0, a: 0}
+        ctime0: 31741
+        ctime1: 65535
+        ctime2: 0
+        ctime3: 0
+        ctime4: 0
+        ctime5: 0
+        ctime6: 0
+        ctime7: 0
+        atime0: 31741
+        atime1: 65535
+        atime2: 0
+        atime3: 0
+        atime4: 0
+        atime5: 0
+        atime6: 0
+        atime7: 0
+        m_Mode: 0
+        m_ColorSpace: -1
+        m_NumColorKeys: 2
+        m_NumAlphaKeys: 2
+      tint: {r: 0, g: 0, b: 0.47490096, a: 1}
+      startHeight: 0.24687393
+    - gradient:
+        serializedVersion: 2
+        key0: {r: 0.00891516, g: 1, b: 0, a: 0.86364245}
+        key1: {r: 0.00891516, g: 1, b: 0, a: 0.86364245}
+        key2: {r: 0.00891516, g: 1, b: 0, a: 0.86364245}
+        key3: {r: 0.00891516, g: 1, b: 0, a: 0.86364245}
+        key4: {r: 0.00891516, g: 1, b: 0, a: 0.86364245}
+        key5: {r: 1, g: 1, b: 1, a: 0.9878725}
+        key6: {r: 0, g: 0, b: 0, a: 0}
+        key7: {r: 0, g: 0, b: 0, a: 0}
+        ctime0: 17858
+        ctime1: 25267
+        ctime2: 39638
+        ctime3: 58393
+        ctime4: 58429
+        ctime5: 64903
+        ctime6: 0
+        ctime7: 0
+        atime0: 17858
+        atime1: 25118
+        atime2: 39638
+        atime3: 58393
+        atime4: 58429
+        atime5: 64903
+        atime6: 0
+        atime7: 0
+        m_Mode: 0
+        m_ColorSpace: 0
+        m_NumColorKeys: 6
+        m_NumAlphaKeys: 6
+      tint: {r: 1, g: 1, b: 0.48506185, a: 1}
+      startHeight: 1
+    - gradient:
+        serializedVersion: 2
+        key0: {r: 0.3304767, g: 0.60170084, b: 0.30137408, a: 0.6952394}
+        key1: {r: 0.6785512, g: 0.30841175, b: 0.0017147867, a: 1}
+        key2: {r: 0, g: 0, b: 0, a: 0}
+        key3: {r: 0, g: 0, b: 0, a: 0}
+        key4: {r: 0, g: 0, b: 0, a: 0}
+        key5: {r: 0, g: 0, b: 0, a: 0}
+        key6: {r: 0, g: 0, b: 0, a: 0}
+        key7: {r: 0, g: 0, b: 0, a: 0}
+        ctime0: 49923
+        ctime1: 65535
+        ctime2: 0
+        ctime3: 0
+        ctime4: 0
+        ctime5: 0
+        ctime6: 0
+        ctime7: 0
+        atime0: 49923
+        atime1: 65535
+        atime2: 0
+        atime3: 0
+        atime4: 0
+        atime5: 0
+        atime6: 0
+        atime7: 0
+        m_Mode: 0
+        m_ColorSpace: -1
+        m_NumColorKeys: 2
+        m_NumAlphaKeys: 2
+      tint: {r: 1, g: 0, b: 0, a: 1}
+      startHeight: 0.7920426
+    temperatureNoise:
+      filterType: 0
+      simpleNoiseSettings:
+        strength: 0.15
+        numLayers: 4
+        baseRoughness: 1.5
+        roughness: 1.3
+        persistence: 2
+        centre: {x: 0, y: 0, z: 0}
+        minValue: 1
+      ridgidNoiseSettings:
+        strength: 1
+        numLayers: 1
+        baseRoughness: 1
+        roughness: 2
+        persistence: 0.5
+        centre: {x: 0, y: 0, z: 0}
+        minValue: 0
+        weightMultiplier: 0.8
+  sand:
+    normalStrength: 1
+    enabled: 1
+    texture: {fileID: 0}
+    normalMap: {fileID: 0}
+    roughnessMap: {fileID: 0}
+    tiling: 10
+  grass:
+    normalStrength: 1
+    enabled: 1
+    texture: {fileID: 0}
+    normalMap: {fileID: 0}
+    roughnessMap: {fileID: 0}
+    tiling: 10
+  mountain:
+    normalStrength: 1
+    enabled: 1
+    texture: {fileID: 0}
+    normalMap: {fileID: 0}
+    roughnessMap: {fileID: 0}
+    tiling: 10
+  snow:
+    normalStrength: 1
+    enabled: 1
+    texture: {fileID: 0}
+    normalMap: {fileID: 0}
+    roughnessMap: {fileID: 0}
+    tiling: 10
+  transitions:
+    sandToGrassStart: 0.1
+    sandToGrassEnd: 0.2
+    grassToMountainStart: 0.4
+    grassToMountainEnd: 0.5
+    mountainToSnowStart: 0.6
+    mountainToSnowEnd: 0.8

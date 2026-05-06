@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6f040b5373cad545aeb581355a66b55, type: 3}
+  m_Name: Biome
+  m_EditorClassIdentifier: Assembly-CSharp::BiomeSettings
+  temperatureNoise:
+    filterType: 0
+    simpleNoiseSettings:
+      strength: 0.48
+      numLayers: 4
+      baseRoughness: 1
+      roughness: 2
+      persistence: 0.5
+      centre: {x: -0.18, y: 0, z: 0}
+      minValue: 0.03
+    ridgidNoiseSettings:
+      strength: 1
+      numLayers: 1
+      baseRoughness: 1
+      roughness: 2
+      persistence: 0.5
+      centre: {x: 0, y: 0, z: 0}
+      minValue: 0
+      weightMultiplier: 0.8
+  humidityNoise:
+    filterType: 1
+    simpleNoiseSettings:
+      strength: 0.86
+      numLayers: 4
+      baseRoughness: 1
+      roughness: 2
+      persistence: 0.5
+      centre: {x: 0, y: 0, z: 0}
+      minValue: 0
+    ridgidNoiseSettings:
+      strength: 1.24
+      numLayers: 1
+      baseRoughness: 1
+      roughness: 2
+      persistence: 0.5
+      centre: {x: 0, y: 0, z: 0}
+      minValue: 0
+      weightMultiplier: 0.8
