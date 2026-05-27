@@ -3362,6 +3362,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4370535665483347152, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
+      propertyPath: message
+      value: Hexcode for the color
+      objectReference: {fileID: 0}
     - target: {fileID: 6745289435048282583, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: m_SizeDelta.x
       value: 97.3032
