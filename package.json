@@ -1,6 +1,6 @@
 {
   "name": "com.david.proceduralplanet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Procedural Planet",
   "description": "A modular procedural planet generator for Unity.",
   "unity": "2020.3",
