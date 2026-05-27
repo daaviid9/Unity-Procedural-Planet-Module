@@ -13,7 +13,7 @@ namespace ProceduralPlanet
             if (tabDropdown != null)
             {
                 tabDropdown.onValueChanged.AddListener(OnTabChanged);
-                // Nastavi zobrazenie podla aktualnej (pociatocnej) hodnoty dropdownu
+                // Match the initial dropdown value.
                 OnTabChanged(tabDropdown.value);
             }
         }
@@ -26,7 +26,6 @@ namespace ProceduralPlanet
             {
                 if (tabContents[i] != null)
                 {
-                    // Zapne len ten panel, ktory sa zhoduje s vybranym indexom, ostatne vypne
                     tabContents[i].SetActive(i == index);
                 }
             }

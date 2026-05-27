@@ -23,7 +23,7 @@ namespace ProceduralPlanet
         {
             if (planetSettingsPanel != null)
             {
-                planetSettingsPanel.SetActive(!hidden);
+                planetSettingsPanel.SetActive(hidden);
             }
         }
     }

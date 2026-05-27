@@ -1,13 +1,27 @@
 using UnityEngine;
 using Unity.Collections;
+using Stopwatch = System.Diagnostics.Stopwatch;
 
 namespace ProceduralPlanet
 {
     public class Planet : MonoBehaviour
     {
-        [System.Serializable]
+        private const int FaceCount = 6;
+        private const int BackFaceResolution = 2;
+        private const int MaxFacesUpdatedPerFrame = 1;
+        private const float BackFaceDotThreshold = -0.4f;
 
-        // LOD Settings
+        private static readonly Vector3[] FaceDirections =
+        {
+            Vector3.up,
+            Vector3.down,
+            Vector3.left,
+            Vector3.right,
+            Vector3.forward,
+            Vector3.back
+        };
+
+        [System.Serializable]
         public struct LODLevel
         {
             [Range(2, 256)]
@@ -19,7 +33,6 @@ namespace ProceduralPlanet
         public Transform viewer;
         public LODLevel[] lodLevels;
 
-
         [Range(2, 256)]
         public int resolution = 10;
         public bool autoUpdate = true;
@@ -29,6 +42,21 @@ namespace ProceduralPlanet
         public ShapeSettings shapeSettings;
         public ColorSettings colorSettings;
         public Material planetMaterial;
+
+        [Header("Generation Profiling")]
+        [SerializeField]
+        private bool logGenerationTime = true;
+        [SerializeField, HideInInspector]
+        private float lastGenerationTimeMs;
+        [SerializeField, HideInInspector]
+        private int lastGeneratedVertexCount;
+        [SerializeField, HideInInspector]
+        private int lastGeneratedFaceCount;
+
+        public float LastGenerationTimeMs => lastGenerationTimeMs;
+        public float LastGenerationTimeSeconds => lastGenerationTimeMs / 1000f;
+        public int LastGeneratedVertexCount => lastGeneratedVertexCount;
+        public int LastGeneratedFaceCount => lastGeneratedFaceCount;
 
         [Header("Preset Settings")]
         public PlanetPresetDatabase presetDatabase;
@@ -40,69 +68,92 @@ namespace ProceduralPlanet
         [HideInInspector]
         public bool colorSettingsFoldout;
 
-        ShapeGenerator shapeGenerator;
-        ColorGenerator colorGenerator;
+        private ShapeGenerator shapeGenerator;
+        private ColorGenerator colorGenerator;
 
         [SerializeField, HideInInspector]
-        MeshFilter[] meshFilters;
-        TerrainFace[] terrainFaces;
+        private MeshFilter[] meshFilters;
+        private TerrainFace[] terrainFaces;
 
-        // NativeArrays for Jobs
-        NativeArray<NoiseLayerStruct> shapeLayersNative;
-        NativeArray<BiomeStruct> biomesNative;
+        private NativeArray<NoiseLayerStruct> shapeLayersNative;
+        private NativeArray<BiomeStruct> biomesNative;
 
         private void Start()
         {
             GeneratePlanet();
         }
 
-        void Update()
+        private void Update()
         {
-            if (viewer == null || terrainFaces == null || terrainFaces.Length == 0) return;
+            if (viewer == null || terrainFaces == null || terrainFaces.Length == 0 || meshFilters == null)
+            {
+                return;
+            }
 
             UpdateSettingsNative();
+            UpdateVisibleFaceLod();
+        }
 
+        private void UpdateVisibleFaceLod()
+        {
             int facesUpdatedThisFrame = 0;
-            for (int i = 0; i < 6; i++)
+
+            for (int i = 0; i < FaceCount; i++)
             {
-                if (!meshFilters[i].gameObject.activeSelf) continue;
-
-                Vector3 faceWorldCenter = transform.TransformPoint(terrainFaces[i].localup_for_lod * shapeSettings.planetRadius);
-                float distanceToViewer = Vector3.Distance(faceWorldCenter, viewer.position);
-
-                Vector3 dirToFace = (faceWorldCenter - transform.position).normalized;
-                Vector3 dirToViewer = (viewer.position - transform.position).normalized;
-                float dotProduct = Vector3.Dot(dirToFace, dirToViewer);
-
-                // Default na nízke rozlíšenie (odvrátená strana)
-                int targetResolution = 2; 
-
-                if (dotProduct > -0.4f)
+                if (meshFilters[i] == null || !meshFilters[i].gameObject.activeSelf)
                 {
-                    targetResolution = resolution;
-                    for (int lvl = 0; lvl < lodLevels.Length; lvl++)
-                    {
-                        if (distanceToViewer < lodLevels[lvl].distance)
-                        {
-                            targetResolution = lodLevels[lvl].resolution;
-                            break;
-                        }
-                    }
+                    continue;
                 }
 
-                if (terrainFaces[i].resolution_property != targetResolution && facesUpdatedThisFrame < 1)
+                int targetResolution = GetTargetResolutionForFace(i);
+                if (terrainFaces[i].resolution_property == targetResolution || facesUpdatedThisFrame >= MaxFacesUpdatedPerFrame)
                 {
-                    terrainFaces[i].UpdateResolution(targetResolution);
-                    terrainFaces[i].ConstructMesh(shapeLayersNative, biomesNative, GetTempNoiseStruct(), colorSettings.biomeSettings.blendAmount, shapeSettings.planetRadius);
-                    
-                    // Použijeme existujúce min/max aby sme zabránili flickeringu počas LoD
-                    terrainFaces[i].UpdateUVs(shapeGenerator.minElevationHeight, shapeGenerator.maxElevationHeight);
-                    facesUpdatedThisFrame++;
+                    continue;
                 }
+
+                terrainFaces[i].UpdateResolution(targetResolution);
+                terrainFaces[i].ConstructMesh(shapeLayersNative, biomesNative, GetTempNoiseStruct(), colorSettings.biomeSettings.blendAmount, shapeSettings.planetRadius);
+
+                // Reuse the current height range to avoid visible flicker during LOD updates.
+                terrainFaces[i].UpdateUVs(shapeGenerator.minElevationHeight, shapeGenerator.maxElevationHeight);
+                facesUpdatedThisFrame++;
             }
         }
 
-        void UpdateSettingsNative()
+        private int GetTargetResolutionForFace(int faceIndex)
+        {
+            Vector3 faceWorldCenter = transform.TransformPoint(terrainFaces[faceIndex].localup_for_lod * shapeSettings.planetRadius);
+            float distanceToViewer = Vector3.Distance(faceWorldCenter, viewer.position);
+
+            Vector3 dirToFace = (faceWorldCenter - transform.position).normalized;
+            Vector3 dirToViewer = (viewer.position - transform.position).normalized;
+            float dotProduct = Vector3.Dot(dirToFace, dirToViewer);
+
+            return dotProduct > BackFaceDotThreshold
+                ? GetResolutionForDistance(distanceToViewer)
+                : BackFaceResolution;
+        }
+
+        private int GetResolutionForDistance(float distanceToViewer)
+        {
+            if (lodLevels == null || lodLevels.Length == 0)
+            {
+                return resolution;
+            }
+
+            int fallbackResolution = lodLevels[lodLevels.Length - 1].resolution;
+            for (int lvl = 0; lvl < lodLevels.Length; lvl++)
+            {
+                if (distanceToViewer < lodLevels[lvl].distance)
+                {
+                    return lodLevels[lvl].resolution;
+                }
+            }
+
+            return fallbackResolution;
+        }
+
+        private void UpdateSettingsNative()
         {
             if (!shapeLayersNative.IsCreated || shapeLayersNative.Length != shapeSettings.noiseLayers.Length)
             {
@@ -118,111 +169,186 @@ namespace ProceduralPlanet
 
             for (int i = 0; i < shapeSettings.noiseLayers.Length; i++)
             {
-                var layer = shapeSettings.noiseLayers[i];
-                var s = (layer.noiseSettings.filterType == NoiseSettings.FilterType.Simple) ? 
-                         layer.noiseSettings.simpleNoiseSettings : layer.noiseSettings.ridgidNoiseSettings;
-                
-                float weightMult = (layer.noiseSettings.filterType == NoiseSettings.FilterType.Ridgid) ? layer.noiseSettings.ridgidNoiseSettings.weightMultiplier : 1f;
-
-                shapeLayersNative[i] = new NoiseLayerStruct {
-                    enabled = layer.enabled,
-                    useFirstLayerAsMask = layer.useFirstLayerAsMask,
-                    strength = s.strength,
-                    numLayers = s.numLayers,
-                    baseRoughness = s.baseRoughness,
-                    roughness = s.roughness,
-                    persistence = s.persistence,
-                    centre = s.centre,
-                    minValue = s.minValue,
-                    filterType = (int)layer.noiseSettings.filterType,
-                    weightMultiplier = weightMult
-                };
+                shapeLayersNative[i] = BuildNoiseLayerStruct(shapeSettings.noiseLayers[i]);
             }
 
             for (int i = 0; i < colorSettings.biomeSettings.biomes.Length; i++)
             {
-                biomesNative[i] = new BiomeStruct {
+                biomesNative[i] = new BiomeStruct
+                {
                     startHeight = colorSettings.biomeSettings.biomes[i].startHeight
                 };
             }
         }
 
-        NoiseLayerStruct GetTempNoiseStruct()
+        private NoiseLayerStruct BuildNoiseLayerStruct(ShapeSettings.NoiseLayer layer)
         {
-            var ns = colorSettings.biomeSettings.temperatureNoise;
-            var s = ns.simpleNoiseSettings;
-            return new NoiseLayerStruct {
-                strength = s.strength,
-                numLayers = s.numLayers,
-                baseRoughness = s.baseRoughness,
-                roughness = s.roughness,
-                persistence = s.persistence,
-                centre = s.centre,
-                minValue = s.minValue,
+            NoiseSettings settings = layer.noiseSettings;
+            bool isRidgid = settings.filterType == NoiseSettings.FilterType.Ridgid;
+            NoiseSettings.SimpleNoiseSettings values = isRidgid
+                ? settings.ridgidNoiseSettings
+                : settings.simpleNoiseSettings;
+
+            return new NoiseLayerStruct
+            {
+                enabled = layer.enabled,
+                useFirstLayerAsMask = layer.useFirstLayerAsMask,
+                strength = values.strength,
+                numLayers = values.numLayers,
+                baseRoughness = values.baseRoughness,
+                roughness = values.roughness,
+                persistence = values.persistence,
+                centre = values.centre,
+                minValue = values.minValue,
+                filterType = (int)settings.filterType,
+                weightMultiplier = isRidgid ? settings.ridgidNoiseSettings.weightMultiplier : 1f
+            };
+        }
+
+        private NoiseLayerStruct GetTempNoiseStruct()
+        {
+            NoiseSettings.SimpleNoiseSettings settings = colorSettings.biomeSettings.temperatureNoise.simpleNoiseSettings;
+            return new NoiseLayerStruct
+            {
+                strength = settings.strength,
+                numLayers = settings.numLayers,
+                baseRoughness = settings.baseRoughness,
+                roughness = settings.roughness,
+                persistence = settings.persistence,
+                centre = settings.centre,
+                minValue = settings.minValue,
                 weightMultiplier = 1f
             };
         }
 
         public void GeneratePlanet()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             Initialize();
             GenerateMesh();
             GenerateColors();
+
+            stopwatch.Stop();
+            StoreGenerationMeasurement(stopwatch);
         }
 
         public void OnPlanetSettingsUpdated()
         {
             if (autoUpdate)
             {
-                Initialize();
-                GenerateMesh();
-                GenerateColors();
+                GeneratePlanet();
             }
         }
 
-        void Initialize()
+        private void StoreGenerationMeasurement(Stopwatch stopwatch)
+        {
+            lastGenerationTimeMs = (float)stopwatch.Elapsed.TotalMilliseconds;
+            lastGeneratedFaceCount = CountActiveFaces();
+            lastGeneratedVertexCount = lastGeneratedFaceCount * resolution * resolution;
+
+            if (logGenerationTime)
+            {
+                Debug.Log(
+                    $"Planet generation finished in {lastGenerationTimeMs:0.00} ms " +
+                    $"({LastGenerationTimeSeconds:0.000} s), resolution {resolution}, " +
+                    $"{lastGeneratedFaceCount} faces, {lastGeneratedVertexCount} vertices.",
+                    this);
+            }
+        }
+
+        private int CountActiveFaces()
+        {
+            if (meshFilters == null) return 0;
+
+            int activeFaces = 0;
+            for (int i = 0; i < meshFilters.Length; i++)
+            {
+                if (meshFilters[i] != null && meshFilters[i].gameObject.activeSelf)
+                {
+                    activeFaces++;
+                }
+            }
+
+            return activeFaces;
+        }
+
+        private void Initialize()
         {
             shapeGenerator = new ShapeGenerator(shapeSettings);
             colorGenerator = new ColorGenerator(colorSettings);
 
-            if (meshFilters == null || meshFilters.Length == 0) meshFilters = new MeshFilter[6];
+            EnsureMeshFiltersArray();
 
-            if (terrainFaces != null)
-            {
-                for (int i = 0; i < terrainFaces.Length; i++)
-                {
-                    terrainFaces[i]?.Release();
-                }
-            }
+            ReleaseTerrainFaces();
+            terrainFaces = new TerrainFace[FaceCount];
 
-            terrainFaces = new TerrainFace[6];
-
-            Vector3[] directions = { Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
-
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < FaceCount; i++)
             {
                 if (meshFilters[i] == null)
                 {
-                    GameObject meshObj = new GameObject("Terrain Face " + i);
-                    meshObj.transform.parent = transform;
-                    meshObj.AddComponent<MeshRenderer>().sharedMaterial = planetMaterial;
-                    meshFilters[i] = meshObj.AddComponent<MeshFilter>();
-                    meshFilters[i].sharedMesh = new Mesh();
+                    meshFilters[i] = CreateTerrainFaceObject(i);
                 }
 
-                terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
+                terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, FaceDirections[i]);
                 bool renderFace = faceRenderMask == FaceRenderMask.All || (int)faceRenderMask - 1 == i;
                 meshFilters[i].gameObject.SetActive(renderFace);
             }
         }
 
-        void GenerateMesh()
+        private MeshFilter CreateTerrainFaceObject(int index)
+        {
+            GameObject meshObj = new GameObject("Terrain Face " + index);
+            meshObj.transform.parent = transform;
+            meshObj.AddComponent<MeshRenderer>().sharedMaterial = planetMaterial;
+            MeshFilter meshFilter = meshObj.AddComponent<MeshFilter>();
+            meshFilter.sharedMesh = new Mesh();
+            return meshFilter;
+        }
+
+        private void EnsureMeshFiltersArray()
+        {
+            if (meshFilters == null)
+            {
+                meshFilters = new MeshFilter[FaceCount];
+                return;
+            }
+
+            if (meshFilters.Length == FaceCount)
+            {
+                return;
+            }
+
+            MeshFilter[] resized = new MeshFilter[FaceCount];
+            int copyCount = Mathf.Min(meshFilters.Length, FaceCount);
+            for (int i = 0; i < copyCount; i++)
+            {
+                resized[i] = meshFilters[i];
+            }
+
+            meshFilters = resized;
+        }
+
+        private void ReleaseTerrainFaces()
+        {
+            if (terrainFaces == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < terrainFaces.Length; i++)
+            {
+                terrainFaces[i]?.Release();
+            }
+        }
+
+        private void GenerateMesh()
         {
             UpdateSettingsNative();
             shapeGenerator.minElevationHeight = float.MaxValue;
             shapeGenerator.maxElevationHeight = float.MinValue;
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < FaceCount; i++)
             {
                 if (meshFilters[i].gameObject.activeSelf)
                 {
@@ -230,7 +356,7 @@ namespace ProceduralPlanet
                 }
             }
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < FaceCount; i++)
             {
                 if (meshFilters[i].gameObject.activeSelf)
                 {
@@ -239,7 +365,7 @@ namespace ProceduralPlanet
             }
         }
 
-        void GenerateColors()
+        private void GenerateColors()
         {
             if (colorGenerator == null) colorGenerator = new ColorGenerator(colorSettings);
             Texture2D gradientTexture = colorGenerator.GenerateGradientTexture(shapeGenerator);
@@ -258,50 +384,54 @@ namespace ProceduralPlanet
             PassTerrainTextureSettings("_Grass", colorSettings.grass);
             PassTerrainTextureSettings("_Mountain", colorSettings.mountain);
             PassTerrainTextureSettings("_Snow", colorSettings.snow);
-
-            if (colorSettings.transitions != null)
-            {
-                planetMaterial.SetFloat("_SandToGrassStart", colorSettings.transitions.sandToGrassStart);
-                planetMaterial.SetFloat("_SandToGrassEnd", colorSettings.transitions.sandToGrassEnd);
-                
-                planetMaterial.SetFloat("_GrassToMountainStart", colorSettings.transitions.grassToMountainStart);
-                planetMaterial.SetFloat("_GrassToMountainEnd", colorSettings.transitions.grassToMountainEnd);
-                
-                planetMaterial.SetFloat("_MountainToSnowStart", colorSettings.transitions.mountainToSnowStart);
-                planetMaterial.SetFloat("_MountainToSnowEnd", colorSettings.transitions.mountainToSnowEnd);
-            }
+            PassTextureTransitionSettings();
         }
 
-        void PassTerrainTextureSettings(string prefix, ColorSettings.TerrainTextureSettings textureSettings)
+        private void PassTextureTransitionSettings()
         {
-            if (textureSettings != null)
+            if (colorSettings.transitions == null)
             {
-                //planetMaterial.SetFloat(prefix + "Enabled", textureSettings.enabled ? 1f : 0f);
-                if (textureSettings.enabled) {
-                    planetMaterial.SetTexture(prefix + "Tex", textureSettings.texture);
-                    planetMaterial.SetTexture(prefix + "Normal", textureSettings.normalMap);
-                    planetMaterial.SetTexture(prefix + "Rough", textureSettings.roughnessMap);
-                    planetMaterial.SetFloat(prefix + "Tiling", textureSettings.tiling);
-                }
-                else
-                {
-                    planetMaterial.SetTexture(prefix + "Tex", null);
-                    planetMaterial.SetTexture(prefix + "Normal", null);
-                    planetMaterial.SetTexture(prefix + "Rough", null);
-                    planetMaterial.SetFloat(prefix + "Tiling", 0);                    
-                }
-                planetMaterial.SetFloat(prefix + "NormalStrength", textureSettings.normalStrength);
+                return;
             }
+
+            planetMaterial.SetFloat("_SandToGrassStart", colorSettings.transitions.sandToGrassStart);
+            planetMaterial.SetFloat("_SandToGrassEnd", colorSettings.transitions.sandToGrassEnd);
+            planetMaterial.SetFloat("_GrassToMountainStart", colorSettings.transitions.grassToMountainStart);
+            planetMaterial.SetFloat("_GrassToMountainEnd", colorSettings.transitions.grassToMountainEnd);
+            planetMaterial.SetFloat("_MountainToSnowStart", colorSettings.transitions.mountainToSnowStart);
+            planetMaterial.SetFloat("_MountainToSnowEnd", colorSettings.transitions.mountainToSnowEnd);
+        }
+
+        private void PassTerrainTextureSettings(string prefix, ColorSettings.TerrainTextureSettings textureSettings)
+        {
+            if (textureSettings == null)
+            {
+                return;
+            }
+
+            if (textureSettings.enabled)
+            {
+                planetMaterial.SetTexture(prefix + "Tex", textureSettings.texture);
+                planetMaterial.SetTexture(prefix + "Normal", textureSettings.normalMap);
+                planetMaterial.SetTexture(prefix + "Rough", textureSettings.roughnessMap);
+                planetMaterial.SetFloat(prefix + "Tiling", textureSettings.tiling);
+            }
+            else
+            {
+                planetMaterial.SetTexture(prefix + "Tex", null);
+                planetMaterial.SetTexture(prefix + "Normal", null);
+                planetMaterial.SetTexture(prefix + "Rough", null);
+                planetMaterial.SetFloat(prefix + "Tiling", 0);
+            }
+
+            planetMaterial.SetFloat(prefix + "NormalStrength", textureSettings.normalStrength);
         }
 
         private void OnDestroy()
         {
             if (shapeLayersNative.IsCreated) shapeLayersNative.Dispose();
             if (biomesNative.IsCreated) biomesNative.Dispose();
-            if (terrainFaces != null)
-            {
-                foreach (var face in terrainFaces) face?.Release();
-            }
+            ReleaseTerrainFaces();
         }
 
         public bool SavePresetToCurrentSlot()

@@ -39,7 +39,7 @@ namespace ProceduralPlanet
                 if (settings.noiseLayers[i].enabled)
                 {
                     float mask = (settings.noiseLayers[i].useFirstLayerAsMask) ? firstLayerValue : 1;
-                    elevation += noiseFilters[i].Evaluate(pointOnUnitSphere) * mask; ;
+                    elevation += noiseFilters[i].Evaluate(pointOnUnitSphere) * mask;
                 }
             }
             float height = settings.planetRadius * (elevation + 1);

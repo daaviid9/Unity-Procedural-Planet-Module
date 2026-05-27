@@ -467,7 +467,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -18, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8737552882544637306
 MonoBehaviour:
@@ -837,8 +837,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Simple
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -961,7 +961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
     m_Left: 5
-    m_Right: 0
+    m_Right: 5
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
@@ -1040,8 +1040,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Noise Layer 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1200585cf2b6c8846a323649931eaa71, type: 2}
+  m_sharedMaterial: {fileID: -8765486879889357596, guid: 1200585cf2b6c8846a323649931eaa71, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1234,6 +1234,7 @@ GameObject:
   - component: {fileID: 2926326940444925738}
   - component: {fileID: 2966788155690017587}
   - component: {fileID: 1494261487742391632}
+  - component: {fileID: 7278009032496407544}
   m_Layer: 5
   m_Name: FilterTypeDropdown
   m_TagString: Untagged
@@ -1382,6 +1383,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7278009032496407544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2654030911892523922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb43eeb0622a1db43b5e1be3add270e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ProceduralPlanet.Runtime::TooltipTrigger
+  message: Noise algorithm for this layer
 --- !u!1 &2879731155438909243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1708,7 +1722,7 @@ RectTransform:
   m_Father: {fileID: 380131134411988063}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1944,8 +1958,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
-    m_Left: 6
-    m_Right: 0
+    m_Left: 3
+    m_Right: 3
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
@@ -1969,6 +1983,7 @@ GameObject:
   - component: {fileID: 378928256854038543}
   - component: {fileID: 5427476010403210506}
   - component: {fileID: 1847771872090822864}
+  - component: {fileID: 5817319446961541400}
   m_Layer: 5
   m_Name: LayersText (TMP)
   m_TagString: Untagged
@@ -1993,7 +2008,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 58.0154, y: 15.6819}
+  m_SizeDelta: {x: 65.288, y: 18.8}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &378928256854038543
 CanvasRenderer:
@@ -2025,8 +2040,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Layers: 1'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2115,6 +2130,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &5817319446961541400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4664971137452571561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb43eeb0622a1db43b5e1be3add270e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ProceduralPlanet.Runtime::TooltipTrigger
+  message: Number of stacked noise octaves
 --- !u!1 &4739417625883439372
 GameObject:
   m_ObjectHideFlags: 0
@@ -2375,7 +2403,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 6f1f3a99831c01542b904571ce4e4763, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -2455,8 +2483,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Option A
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2815,7 +2843,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3317447868828226424}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.2
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2961,7 +2989,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 6f1f3a99831c01542b904571ce4e4763, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -3111,7 +3139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.34117648, g: 0.34117648, b: 0.34117648, a: 0.4745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3176,10 +3204,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 5
+    m_Right: 5
+    m_Top: 5
+    m_Bottom: 5
   m_ChildAlignment: 0
   m_Spacing: 1.5
   m_ChildForceExpandWidth: 1
@@ -3642,6 +3670,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4370535665483347152, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
+      propertyPath: message
+      value: Overall terrain height impact
+      objectReference: {fileID: 0}
     - target: {fileID: 4540227381384141926, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -3771,11 +3803,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7145304888073292204, guid: 0cee0d50981540446895cc79a4ab14c8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 52.632
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1822387418511364297, guid: 0cee0d50981540446895cc79a4ab14c8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 347361564476627024}
   m_SourcePrefab: {fileID: 100100000, guid: 0cee0d50981540446895cc79a4ab14c8, type: 3}
+--- !u!1 &765987309366378458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1822387418511364297, guid: 0cee0d50981540446895cc79a4ab14c8, type: 3}
+  m_PrefabInstance: {fileID: 1435309994667912979}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &347361564476627024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765987309366378458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb43eeb0622a1db43b5e1be3add270e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ProceduralPlanet.Runtime::TooltipTrigger
+  message: Noise offset in 3D space
 --- !u!114 &1336423609374177352 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 99308872905185115, guid: 0cee0d50981540446895cc79a4ab14c8, type: 3}
@@ -3910,6 +3967,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4370535665483347152, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
+      propertyPath: message
+      value: Detail scale between octaves
+      objectReference: {fileID: 0}
     - target: {fileID: 4540227381384141926, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: targetInput
       value: 
@@ -4039,6 +4100,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4370535665483347152, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
+      propertyPath: message
+      value: Cuts off low noise values
+      objectReference: {fileID: 0}
     - target: {fileID: 8471858311202050758, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: m_text
       value: 'Min Value:'
@@ -4163,6 +4228,10 @@ PrefabInstance:
     - target: {fileID: 3143063695714196990, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370535665483347152, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
+      propertyPath: message
+      value: Starting noise scale
       objectReference: {fileID: 0}
     - target: {fileID: 4540227381384141926, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: targetInput
@@ -4293,6 +4362,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4370535665483347152, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
+      propertyPath: message
+      value: Strength kept between octaves
+      objectReference: {fileID: 0}
     - target: {fileID: 4540227381384141926, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: targetInput
       value: 
@@ -4421,6 +4494,10 @@ PrefabInstance:
     - target: {fileID: 3143063695714196990, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370535665483347152, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
+      propertyPath: message
+      value: Noise feedback strength
       objectReference: {fileID: 0}
     - target: {fileID: 8471858311202050758, guid: ff6d043c285993d4da9af5bf957b6965, type: 3}
       propertyPath: m_text

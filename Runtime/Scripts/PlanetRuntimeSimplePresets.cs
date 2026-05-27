@@ -106,7 +106,7 @@ namespace ProceduralPlanet
         public string normalMapName;
         public string roughnessMapName;
         public float normalStrength = 1f;
-        public float tiling = 10f;
+        public float tiling = 0.2f;
     }
 
     [Serializable]

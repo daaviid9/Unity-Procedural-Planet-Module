@@ -101,6 +101,10 @@ namespace ProceduralPlanet
         private void ApplyOceanExpandedState()
         {
             if (oceanDetailsRoot != null) oceanDetailsRoot.SetActive(oceanExpanded);
+            if (oceanExpanded && oceanGradientEditor != null)
+            {
+                oceanGradientEditor.RefreshAfterLayout();
+            }
             if (oceanFoldoutArrowText != null) oceanFoldoutArrowText.text = oceanExpanded ? "▼" : "►";
         }
 

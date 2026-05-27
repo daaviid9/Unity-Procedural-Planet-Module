@@ -172,17 +172,17 @@ Material:
     - _GrassNormalStrength: 0.7055092
     - _GrassSaturation: 0.55
     - _GrassTiling: 0.2
-    - _GrassToMountainEnd: 0.5
+    - _GrassToMountainEnd: 0.6
     - _GrassToMountainStart: 0.4
-    - _MaxHeight: 32.131184
+    - _MaxHeight: 32.174583
     - _Metallic: 0
-    - _MinHeight: 27.091516
+    - _MinHeight: 27.096619
     - _MountainEnabled: 1
     - _MountainNormalStrength: 0.7043708
     - _MountainSaturation: 1
     - _MountainTiling: 0.2
-    - _MountainToSnowEnd: 0.8
-    - _MountainToSnowStart: 0.6
+    - _MountainToSnowEnd: 0.9
+    - _MountainToSnowStart: 0.7
     - _NormalStrength: 1
     - _OcclusionStrength: 1
     - _OceanShininess: 220
@@ -195,8 +195,8 @@ Material:
     - _SandNormalStrength: 0.6983102
     - _SandSaturation: 1
     - _SandTiling: 0.2
-    - _SandToGrassEnd: 0.2
-    - _SandToGrassStart: 0.1
+    - _SandToGrassEnd: 0.3
+    - _SandToGrassStart: 0.2
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SnowEnabled: 1

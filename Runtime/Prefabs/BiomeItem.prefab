@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'G: 255'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1344,8 +1344,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Biome 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1200585cf2b6c8846a323649931eaa71, type: 2}
+  m_sharedMaterial: {fileID: -8765486879889357596, guid: 1200585cf2b6c8846a323649931eaa71, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1707,8 +1707,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Start Height: 0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1797,6 +1797,81 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!1 &3018787797933865772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8803083399801158587}
+  - component: {fileID: 1422912507873727203}
+  - component: {fileID: 4498518203960234733}
+  m_Layer: 5
+  m_Name: TintPreviewImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8803083399801158587
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3018787797933865772}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6527178384673569016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 29.7, y: 0.7}
+  m_SizeDelta: {x: 15, y: 15}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!222 &1422912507873727203
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3018787797933865772}
+  m_CullTransparentMesh: 1
+--- !u!114 &4498518203960234733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3018787797933865772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3231557778591032515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,6 +1885,7 @@ GameObject:
   - component: {fileID: 4943344548635568}
   - component: {fileID: 5931327369176206088}
   - component: {fileID: 1922676590502807466}
+  - component: {fileID: 8498485587153144441}
   m_Layer: 5
   m_Name: TintFoldoutButton
   m_TagString: Untagged
@@ -1831,6 +1907,7 @@ RectTransform:
   m_Children:
   - {fileID: 6157479085577425865}
   - {fileID: 3427539006707953087}
+  - {fileID: 8803083399801158587}
   m_Father: {fileID: 8144728183721392866}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1940,6 +2017,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8498485587153144441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3231557778591032515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb43eeb0622a1db43b5e1be3add270e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ProceduralPlanet.Runtime::TooltipTrigger
+  message: Debug color for this biome
 --- !u!1 &3298796977212110241
 GameObject:
   m_ObjectHideFlags: 0
@@ -2780,8 +2870,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Tint
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3067,8 +3157,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'R: 255'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3526,8 +3616,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'B: 255'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3752,7 +3842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.34117648, g: 0.34117648, b: 0.34117648, a: 0.4745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3782,10 +3872,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 5
+    m_Right: 5
+    m_Top: 5
+    m_Bottom: 5
   m_ChildAlignment: 0
   m_Spacing: 1.69
   m_ChildForceExpandWidth: 1
@@ -3819,6 +3909,7 @@ MonoBehaviour:
   tintFoldoutButton: {fileID: 5931327369176206088}
   tintArrowText: {fileID: 3668230046800497341}
   tintDetailsRoot: {fileID: 7233208139143600217}
+  tintPreviewImage: {fileID: 4498518203960234733}
   tintRSlider: {fileID: 2766612001200917876}
   tintRText: {fileID: 4622716625511022276}
   tintGSlider: {fileID: 6539196732722949139}
@@ -4460,19 +4551,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1174173122176567815, guid: 35c689b82ccd4334389aef34c8638a68, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3165998580674243357}
+    - targetCorrespondingSourceObject: {fileID: 5530664037565378456, guid: 35c689b82ccd4334389aef34c8638a68, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5185013830945508497}
   m_SourcePrefab: {fileID: 100100000, guid: 35c689b82ccd4334389aef34c8638a68, type: 3}
 --- !u!1 &1004120060961933545 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5757455240292260976, guid: 35c689b82ccd4334389aef34c8638a68, type: 3}
   m_PrefabInstance: {fileID: 4758561983541679257}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1065403998849383169 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5530664037565378456, guid: 35c689b82ccd4334389aef34c8638a68, type: 3}
+  m_PrefabInstance: {fileID: 4758561983541679257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5185013830945508497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065403998849383169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb43eeb0622a1db43b5e1be3add270e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ProceduralPlanet.Runtime::TooltipTrigger
+  message: Texture blend position
 --- !u!114 &1484365050689500541 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6237565539245629924, guid: 35c689b82ccd4334389aef34c8638a68, type: 3}
   m_PrefabInstance: {fileID: 4758561983541679257}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5927386726418570910}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -4505,3 +4620,21 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 898003079620535530, guid: 35c689b82ccd4334389aef34c8638a68, type: 3}
   m_PrefabInstance: {fileID: 4758561983541679257}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5927386726418570910 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1174173122176567815, guid: 35c689b82ccd4334389aef34c8638a68, type: 3}
+  m_PrefabInstance: {fileID: 4758561983541679257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3165998580674243357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927386726418570910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb43eeb0622a1db43b5e1be3add270e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ProceduralPlanet.Runtime::TooltipTrigger
+  message: Colors from low to high terrain

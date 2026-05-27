@@ -4,14 +4,7 @@
   "displayName": "Procedural Planet",
   "description": "A modular procedural planet generator for Unity.",
   "unity": "2020.3",
-  "samples": [
-    {
-      "displayName": "Demo Scene",
-      "description": "A demo scene with runtime UI for configuring and previewing procedural planets.",
-      "path": "Samples~/DemoScene"
-    }
-  ],
   "author": {
-    "name": "David Jancus"
+    "name": "Dávid Jančuš"
   }
 }

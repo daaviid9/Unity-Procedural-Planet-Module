@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
 using ProceduralPlanet;
 
 //Original version of the ConditionalHideAttribute created by Brecht Lecluyse (www.brechtos.com)
@@ -32,7 +31,7 @@ namespace ProceduralPlanet.Editor
             {
                 return EditorGUI.GetPropertyHeight(property, label);
             }
-            //We want to undo the spacing added before and after the property
+            // Undo the spacing added before and after the property.
             return -EditorGUIUtility.standardVerticalSpacing;
 
         }
@@ -41,23 +40,21 @@ namespace ProceduralPlanet.Editor
         {
             SerializedProperty sourcePropertyValue = null;
 
-            //Get the full relative property path of the sourcefield so we can have nested hiding.Use old method when dealing with arrays
+            // Use the full relative path so nested serialized properties can drive visibility.
             if (!property.isArray)
             {
-                string propertyPath = property.propertyPath; //returns the property path of the property we want to apply the attribute to
-                string conditionPath = propertyPath.Replace(property.name, condHAtt.conditionalSourceField); //changes the path to the conditionalsource property path
+                string propertyPath = property.propertyPath;
+                string conditionPath = propertyPath.Replace(property.name, condHAtt.conditionalSourceField);
                 sourcePropertyValue = property.serializedObject.FindProperty(conditionPath);
 
-                //if the find failed->fall back to the old system
+                // Fall back when the nested lookup fails.
                 if (sourcePropertyValue == null)
                 {
-                    //original implementation (doens't work with nested serializedObjects)
                     sourcePropertyValue = property.serializedObject.FindProperty(condHAtt.conditionalSourceField);
                 }
             }
             else
             {
-                //original implementation (doens't work with nested serializedObjects)
                 sourcePropertyValue = property.serializedObject.FindProperty(condHAtt.conditionalSourceField);
             }
 
@@ -72,7 +69,7 @@ namespace ProceduralPlanet.Editor
 
         bool CheckPropertyType(ConditionalHideAttribute condHAtt, SerializedProperty sourcePropertyValue)
         {
-            //Note: add others for custom handling if desired
+            // Add more property types here if needed.
             switch (sourcePropertyValue.propertyType)
             {
                 case SerializedPropertyType.Boolean:
@@ -86,4 +83,3 @@ namespace ProceduralPlanet.Editor
         }
     }
 }
-

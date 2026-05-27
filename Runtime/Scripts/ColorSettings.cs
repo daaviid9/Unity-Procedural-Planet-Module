@@ -5,8 +5,6 @@ namespace ProceduralPlanet
     [CreateAssetMenu()]
     public class ColorSettings : ScriptableObject
     {
-        //public Color planetColor;
-        //public Gradient[] terrainColors;
         [Range(2, 512)]
         public int textureResolution = 50;
         public bool debugMode;
@@ -22,7 +20,6 @@ namespace ProceduralPlanet
             public float waveScale = 0.5f;
             [Range(0, 1)]
             public float normalStrength = 1f; 
-
         }
     
         public BiomeSettings biomeSettings;
@@ -56,7 +53,7 @@ namespace ProceduralPlanet
             public Texture2D texture;
             public Texture2D normalMap;
             public Texture2D roughnessMap;
-            public float tiling = 10;
+            public float tiling = 0.2f;
         }
 
         public TextureTransitionSettings transitions;

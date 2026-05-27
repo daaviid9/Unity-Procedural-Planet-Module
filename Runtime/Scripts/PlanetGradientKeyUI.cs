@@ -7,10 +7,10 @@ namespace ProceduralPlanet
     public class PlanetGradientKeyUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         public Image keyColorImage;
-        public Image backgroundImage; // Odkaz na hlavny obrazok sipky
+        public Image backgroundImage;
         public Button removeButton;
         public Color normalColor = Color.white;
-        public Color selectedColor = new Color(0.3f, 0.8f, 1f); // Svetlo modra
+        public Color selectedColor = new Color(0.3f, 0.8f, 1f);
 
         public Color Color { get; private set; }
         public float Time { get; private set; }
@@ -93,6 +93,7 @@ namespace ProceduralPlanet
                 float normalizedX = Mathf.Clamp01((localPoint.x - parentRect.rect.xMin) / parentRect.rect.width);
                 SetTime(normalizedX);
                 editor.SelectKey(this);
+                editor.NotifyGradientChanged();
             }
         }
 

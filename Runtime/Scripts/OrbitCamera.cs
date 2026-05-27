@@ -153,6 +153,18 @@ namespace ProceduralPlanet
             if (angle > 360F) angle -= 360F;
             return Mathf.Clamp(angle, min, max);
         }
+
+        public void SetOrbit(float yawDegrees, float pitchDegrees, float targetDistance, bool snapDistance = false)
+        {
+            x = yawDegrees;
+            y = ClampAngle(pitchDegrees, yMinLimit, yMaxLimit);
+            desiredDistance = Mathf.Clamp(targetDistance, minDistance, maxDistance);
+            lastInputTime = Time.time;
+
+            if (snapDistance)
+            {
+                currentDistance = desiredDistance;
+            }
+        }
     }
 }
-

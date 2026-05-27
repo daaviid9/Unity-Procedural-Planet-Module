@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace ProceduralPlanet
 {
     public class NoiseFilterFactory 

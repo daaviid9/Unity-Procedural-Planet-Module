@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -26,6 +27,7 @@ namespace ProceduralPlanet
         public Slider aSlider;
         public TextMeshProUGUI aText;
         public TMP_InputField timeInput;
+        public TMP_InputField hexInput;
         
 
         [Space]
@@ -36,12 +38,11 @@ namespace ProceduralPlanet
         private Texture2D previewTexture;
         private bool isUpdatingUI = false;
         private bool keyPositionsDirty = false;
+        private Coroutine delayedRefreshRoutine;
 
         private void Awake()
         {
-            previewTexture = new Texture2D(256, 1, TextureFormat.RGBA32, false);
-            previewTexture.wrapMode = TextureWrapMode.Clamp;
-            if (gradientPreview != null) gradientPreview.texture = previewTexture;
+            EnsurePreviewTexture();
 
             if (rSlider != null) rSlider.onValueChanged.AddListener(OnColorSliderChanged);
             if (gSlider != null) gSlider.onValueChanged.AddListener(OnColorSliderChanged);
@@ -49,11 +50,16 @@ namespace ProceduralPlanet
             if (aSlider != null) aSlider.onValueChanged.AddListener(OnColorSliderChanged);
             
             if (timeInput != null) timeInput.onEndEdit.AddListener(OnTimeInputChanged);
+            if (hexInput != null) hexInput.onEndEdit.AddListener(OnHexInputChanged);
+
+            UpdateGradientPreview();
         }
 
         private void OnEnable()
         {
-            MarkKeyPositionsDirty();
+            EnsurePreviewTexture();
+            UpdateGradientPreview();
+            RefreshAfterLayout();
         }
 
         private void LateUpdate()
@@ -75,6 +81,7 @@ namespace ProceduralPlanet
 
         public void SetGradient(Gradient gradient)
         {
+            EnsurePreviewTexture();
             ClearKeys();
             if (gradient == null) gradient = new Gradient();
 
@@ -102,6 +109,10 @@ namespace ProceduralPlanet
         public Gradient GetGradient()
         {
             Gradient g = new Gradient();
+            if (keys.Count == 0)
+            {
+                return g;
+            }
             
             int count = Mathf.Min(keys.Count, 8);
             GradientColorKey[] colorKeys = new GradientColorKey[count];
@@ -132,10 +143,7 @@ namespace ProceduralPlanet
         private void RefreshKeyPositions()
         {
             Canvas.ForceUpdateCanvases();
-            if (keysContainer != null)
-            {
-                LayoutRebuilder.ForceRebuildLayoutImmediate(keysContainer);
-            }
+            RebuildLayoutChain(keysContainer != null ? keysContainer : transform as RectTransform);
 
             for (int i = 0; i < keys.Count; i++)
             {
@@ -146,9 +154,49 @@ namespace ProceduralPlanet
             }
         }
 
+        private void RebuildLayoutChain(RectTransform start)
+        {
+            RectTransform current = start;
+            while (current != null)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(current);
+                current = current.parent as RectTransform;
+            }
+
+            Canvas.ForceUpdateCanvases();
+        }
+
         private void MarkKeyPositionsDirty()
         {
             keyPositionsDirty = true;
+        }
+
+        public void RefreshAfterLayout()
+        {
+            MarkKeyPositionsDirty();
+
+            if (!isActiveAndEnabled)
+            {
+                return;
+            }
+
+            if (delayedRefreshRoutine != null)
+            {
+                StopCoroutine(delayedRefreshRoutine);
+            }
+
+            delayedRefreshRoutine = StartCoroutine(RefreshAfterLayoutRoutine());
+        }
+
+        private IEnumerator RefreshAfterLayoutRoutine()
+        {
+            yield return null;
+            RefreshKeyPositions();
+            UpdateGradientPreview();
+
+            yield return new WaitForEndOfFrame();
+            RefreshKeyPositions();
+            delayedRefreshRoutine = null;
         }
 
         public void SelectKey(PlanetGradientKeyUI key)
@@ -177,6 +225,7 @@ namespace ProceduralPlanet
             if (aText != null) aText.text = $"A: {Mathf.RoundToInt(selectedKey.Color.a * 255f)}";
             
             if (timeInput != null) timeInput.text = (selectedKey.Time * 100f).ToString("0.0");
+            if (hexInput != null) hexInput.text = "#" + ColorUtility.ToHtmlStringRGB(selectedKey.Color);
             isUpdatingUI = false;
         }
 
@@ -196,6 +245,8 @@ namespace ProceduralPlanet
             if (bText != null && bSlider != null) bText.text = $"B: {Mathf.RoundToInt(bSlider.value * 255f)}";
             if (aText != null && aSlider != null) aText.text = $"A: {Mathf.RoundToInt(aSlider.value * 255f)}";
             
+            if (hexInput != null) hexInput.text = "#" + ColorUtility.ToHtmlStringRGB(c);
+            
             selectedKey.SetColor(c);
             onGradientChanged?.Invoke(GetGradient());
         }
@@ -206,8 +257,49 @@ namespace ProceduralPlanet
             if (float.TryParse(val, out float pct))
             {
                 selectedKey.SetTime(Mathf.Clamp01(pct / 100f));
-                onGradientChanged?.Invoke(GetGradient());
+                NotifyGradientChanged();
             }
+        }
+
+        private void OnHexInputChanged(string val)
+        {
+            if (isUpdatingUI || selectedKey == null) return;
+            
+            if (!val.StartsWith("#"))
+            {
+                val = "#" + val;
+            }
+
+            if (ColorUtility.TryParseHtmlString(val, out Color c))
+            {
+                c.a = selectedKey.Color.a; // Zachovanie pôvodnej priehľadnosti
+                
+                isUpdatingUI = true;
+                if (rSlider != null) rSlider.value = c.r;
+                if (gSlider != null) gSlider.value = c.g;
+                if (bSlider != null) bSlider.value = c.b;
+                
+                if (rText != null) rText.text = $"R: {Mathf.RoundToInt(c.r * 255f)}";
+                if (gText != null) gText.text = $"G: {Mathf.RoundToInt(c.g * 255f)}";
+                if (bText != null) bText.text = $"B: {Mathf.RoundToInt(c.b * 255f)}";
+                
+                if (hexInput != null) hexInput.text = "#" + ColorUtility.ToHtmlStringRGB(c);
+                
+                isUpdatingUI = false;
+
+                selectedKey.SetColor(c);
+                NotifyGradientChanged();
+            }
+            else
+            {
+                // Revert to old valid hex if parsing failed
+                if (hexInput != null) hexInput.text = "#" + ColorUtility.ToHtmlStringRGB(selectedKey.Color);
+            }
+        }
+
+        public void NotifyGradientChanged()
+        {
+            onGradientChanged?.Invoke(GetGradient());
         }
 
         private void RemoveSelectedKey()
@@ -241,24 +333,41 @@ namespace ProceduralPlanet
 
         public void UpdateGradientPreview()
         {
+            EnsurePreviewTexture();
             if (previewTexture == null) return;
 
             Gradient g = GetGradient();
             for (int x = 0; x < previewTexture.width; x++)
             {
                 float t = x / (float)(previewTexture.width - 1);
-                previewTexture.SetPixel(x, 0, g.Evaluate(t));
+                Color c = g.Evaluate(t);
+                c.a = 1f;
+                previewTexture.SetPixel(x, 0, c);
             }
             previewTexture.Apply();
             
             if (selectedKey != null) RefreshSettingsUI();
         }
 
+        private void EnsurePreviewTexture()
+        {
+            if (previewTexture == null)
+            {
+                previewTexture = new Texture2D(256, 1, TextureFormat.RGBA32, false);
+                previewTexture.wrapMode = TextureWrapMode.Clamp;
+            }
+
+            if (gradientPreview != null && gradientPreview.texture != previewTexture)
+            {
+                gradientPreview.texture = previewTexture;
+            }
+        }
+
         public void OnPointerDown(PointerEventData eventData)
         {
             if (keysContainer == null || keys.Count >= 8) return;
 
-            // Zabrani vytvoreniu kluca, ak sme klikli sice na UI, ale nie presne do KeysContainer obdlznika (napr. na Slider)
+            // Only create keys from direct clicks inside the key container.
             if (!RectTransformUtility.RectangleContainsScreenPoint(keysContainer, eventData.position, eventData.pressEventCamera)) 
                 return;
 

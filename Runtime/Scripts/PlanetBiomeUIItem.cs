@@ -23,6 +23,7 @@ namespace ProceduralPlanet
         public Button tintFoldoutButton;
         public TextMeshProUGUI tintArrowText;
         public GameObject tintDetailsRoot;
+        public Image tintPreviewImage;
         
         [Header("Tint Fields")]
         public Slider tintRSlider;
@@ -121,6 +122,11 @@ namespace ProceduralPlanet
                 
             if (tintBText != null && tintBSlider != null) 
                 tintBText.text = $"B: {Mathf.RoundToInt(tintBSlider.value * 255f)}";
+
+            if (tintPreviewImage != null && tintRSlider != null && tintGSlider != null && tintBSlider != null)
+            {
+                tintPreviewImage.color = new Color(tintRSlider.value, tintGSlider.value, tintBSlider.value, 1f);
+            }
         }
 
         private void OnGradientChanged(Gradient g)
@@ -177,6 +183,10 @@ namespace ProceduralPlanet
         private void ApplyGradientExpandedState()
         {
             if (gradientDetailsRoot != null) gradientDetailsRoot.SetActive(gradientExpanded);
+            if (gradientExpanded && gradientEditor != null)
+            {
+                gradientEditor.RefreshAfterLayout();
+            }
             if (gradientArrowText != null) gradientArrowText.text = gradientExpanded ? "▼" : "►";
         }
     }

@@ -26,7 +26,7 @@ namespace ProceduralPlanet
                 v *= weight;
                 weight = Mathf.Clamp01(v * settings.weightMultiplier);
     
-                noiseValue += v  *  amplitude;
+                noiseValue += v * amplitude;
                 frequency *= settings.roughness;
                 amplitude *= settings.persistence;
             }

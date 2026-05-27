@@ -168,7 +168,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_KeepTextSelectionVisible: 0
@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 3143063695714196990}
   - component: {fileID: 4756703720541471516}
   - component: {fileID: 4540227381384141926}
+  - component: {fileID: 4370535665483347152}
   m_Layer: 5
   m_Name: InputProperty
   m_TagString: Untagged
@@ -259,6 +260,24 @@ MonoBehaviour:
   horizontalDragCursor: {fileID: 2800000, guid: c28020ca8d5a4b9419d2bb9b6576ae5f, type: 3}
   cursorHotspot: {x: 16, y: 16}
   cursorMode: 0
+--- !u!114 &4370535665483347152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2789623514836344317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb43eeb0622a1db43b5e1be3add270e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ProceduralPlanet.Runtime::TooltipTrigger
+  tooltipPanel: {fileID: 0}
+  tooltipText: {fileID: 8471858311202050758}
+  message: 
+  hoverDelay: 0.5
+  fadeDuration: 0.15
+  mouseOffset: {x: 30, y: -30}
 --- !u!1 &6960371370139582387
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,8 +398,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -536,8 +555,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -673,8 +692,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Title of field:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
+  m_sharedMaterial: {fileID: 3859208965214296312, guid: 7c352a50eeac698478f474ca81788c1c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -111,7 +111,7 @@ namespace ProceduralPlanet
 
             planet.GeneratePlanet();
             UpdateRadiusValueLabel();
-            SetStatus("Applied settings.");
+            SetStatus("Applied settings. " + GetGenerationTimeStatus());
         }
 
         public void SaveCurrentSlot()
@@ -158,7 +158,7 @@ namespace ProceduralPlanet
             PlanetRuntimeSimplePresetMapper.Apply(planet, data);
             planet.GeneratePlanet();
             RefreshUiFromPlanet();
-            SetStatus($"Loaded slot {slot+1}.");
+            SetStatus($"Loaded slot {slot+1}. {GetGenerationTimeStatus()}");
         }
 
         public void CopyCurrentPlanet()
@@ -270,7 +270,7 @@ namespace ProceduralPlanet
             planet.GeneratePlanet();
             RefreshUiFromPlanet();
             didInitialLoad = true;
-            SetStatus("Loaded slot 1.");
+            SetStatus("Loaded slot 1. " + GetGenerationTimeStatus());
         }
 
         private bool TryGetSlot(out int slot)
@@ -292,6 +292,16 @@ namespace ProceduralPlanet
             {
                 statusText.text = message;
             }
+        }
+
+        private string GetGenerationTimeStatus()
+        {
+            if (planet == null)
+            {
+                return string.Empty;
+            }
+
+            return $"Generation: {planet.LastGenerationTimeMs:0.00} ms.";
         }
 
         private void ApplyLodQualityPreset(int index)
