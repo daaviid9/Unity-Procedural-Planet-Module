@@ -78,6 +78,29 @@ namespace ProceduralPlanet
         private NativeArray<NoiseLayerStruct> shapeLayersNative;
         private NativeArray<BiomeStruct> biomesNative;
 
+        private void Awake()
+        {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
+            if (shapeSettings != null)
+            {
+                shapeSettings = Instantiate(shapeSettings);
+            }
+
+            if (colorSettings != null)
+            {
+                colorSettings = Instantiate(colorSettings);
+            }
+
+            if (planetMaterial != null)
+            {
+                planetMaterial = Instantiate(planetMaterial);
+            }
+        }
+
         private void Start()
         {
             GeneratePlanet();
@@ -290,6 +313,7 @@ namespace ProceduralPlanet
                     meshFilters[i] = CreateTerrainFaceObject(i);
                 }
 
+                ApplyPlanetMaterial(meshFilters[i]);
                 terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, FaceDirections[i]);
                 bool renderFace = faceRenderMask == FaceRenderMask.All || (int)faceRenderMask - 1 == i;
                 meshFilters[i].gameObject.SetActive(renderFace);
@@ -300,10 +324,26 @@ namespace ProceduralPlanet
         {
             GameObject meshObj = new GameObject("Terrain Face " + index);
             meshObj.transform.parent = transform;
-            meshObj.AddComponent<MeshRenderer>().sharedMaterial = planetMaterial;
+            meshObj.AddComponent<MeshRenderer>();
             MeshFilter meshFilter = meshObj.AddComponent<MeshFilter>();
             meshFilter.sharedMesh = new Mesh();
             return meshFilter;
+        }
+
+        private void ApplyPlanetMaterial(MeshFilter meshFilter)
+        {
+            if (meshFilter == null || planetMaterial == null)
+            {
+                return;
+            }
+
+            MeshRenderer meshRenderer = meshFilter.GetComponent<MeshRenderer>();
+            if (meshRenderer == null)
+            {
+                meshRenderer = meshFilter.gameObject.AddComponent<MeshRenderer>();
+            }
+
+            meshRenderer.sharedMaterial = planetMaterial;
         }
 
         private void EnsureMeshFiltersArray()

@@ -525,6 +525,9 @@ namespace ProceduralPlanet
 
     public static class PlanetRuntimeSimplePresetStorage
     {
+        private const string UserPresetFolderName = "PlanetPresets";
+        private const string DefaultPresetResourceFolder = "ProceduralPlanet/DefaultPresets";
+
         [Serializable]
         private class Wrapper
         {
@@ -571,14 +574,11 @@ namespace ProceduralPlanet
                 string path = GetSlotPath(slot);
                 if (!File.Exists(path))
                 {
-                    error = $"Slot {slot+1} is empty.";
-                    return false;
+                    return LoadDefaultSlot(slot, out data, out error);
                 }
 
                 string json = File.ReadAllText(path);
-                Wrapper wrapper = JsonUtility.FromJson<Wrapper>(json);
-                data = wrapper != null ? wrapper.data : null;
-                if (data == null)
+                if (!TryDeserialize(json, out data))
                 {
                     error = "Preset file is invalid.";
                     return false;
@@ -593,9 +593,42 @@ namespace ProceduralPlanet
             }
         }
 
+        private static bool LoadDefaultSlot(int slot, out PlanetRuntimeSimplePresetData data, out string error)
+        {
+            data = null;
+            error = null;
+
+            TextAsset presetAsset = Resources.Load<TextAsset>(GetDefaultSlotResourcePath(slot));
+            if (presetAsset == null)
+            {
+                error = $"Slot {slot + 1} is empty.";
+                return false;
+            }
+
+            if (!TryDeserialize(presetAsset.text, out data))
+            {
+                error = $"Default slot {slot + 1} is invalid.";
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool TryDeserialize(string json, out PlanetRuntimeSimplePresetData data)
+        {
+            Wrapper wrapper = JsonUtility.FromJson<Wrapper>(json);
+            data = wrapper != null ? wrapper.data : null;
+            return data != null;
+        }
+
         private static string GetSlotPath(int slot)
         {
-            return Path.Combine(Application.persistentDataPath, "PlanetPresets", $"slot_{slot}.json");
+            return Path.Combine(Application.persistentDataPath, UserPresetFolderName, $"slot_{slot}.json");
+        }
+
+        private static string GetDefaultSlotResourcePath(int slot)
+        {
+            return $"{DefaultPresetResourceFolder}/slot_{slot}";
         }
     }
 }

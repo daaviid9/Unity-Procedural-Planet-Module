@@ -1,6 +1,6 @@
 {
   "name": "com.david.proceduralplanet",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "displayName": "Procedural Planet",
   "description": "A modular procedural planet generator for Unity.",
   "unity": "2020.3",
@@ -8,10 +8,10 @@
     "name": "Dávid Jančuš"
   },
   "samples": [
-  {
-    "displayName": "Demo Scene",
-    "description": "Example scene for the procedural planet package.",
-    "path": "Samples~/DemoScene"
-  }
+    {
+      "displayName": "Demo Scene",
+      "description": "Example scene for the procedural planet package.",
+      "path": "Samples~/DemoScene"
+    }
   ]
 }

@@ -1,0 +1,450 @@
+{
+    "data": {
+        "resolution": 110,
+        "planetRadius": 26.0,
+        "lodLevels": [
+            {
+                "resolution": 256,
+                "distance": 60.0
+            },
+            {
+                "resolution": 192,
+                "distance": 110.0
+            },
+            {
+                "resolution": 128,
+                "distance": 160.0
+            },
+            {
+                "resolution": 92,
+                "distance": 200.0
+            },
+            {
+                "resolution": 48,
+                "distance": 250.0
+            }
+        ],
+        "noiseLayers": [
+            {
+                "enabled": true,
+                "useFirstLayerAsMask": false,
+                "noiseSettings": {
+                    "filterType": 0,
+                    "simple": {
+                        "strength": 0.10999999940395355,
+                        "numLayers": 8,
+                        "baseRoughness": 1.149999976158142,
+                        "roughness": 1.7400000095367432,
+                        "persistence": 0.6200000047683716,
+                        "centre": {
+                            "x": 3.5299999713897707,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "minValue": 0.0
+                    },
+                    "ridgid": {
+                        "strength": 0.10999999940395355,
+                        "numLayers": 8,
+                        "baseRoughness": 1.149999976158142,
+                        "roughness": 1.7400000095367432,
+                        "persistence": 0.6200000047683716,
+                        "centre": {
+                            "x": 3.5299999713897707,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "minValue": 0.0,
+                        "weightMultiplier": 0.800000011920929
+                    }
+                }
+            },
+            {
+                "enabled": true,
+                "useFirstLayerAsMask": true,
+                "noiseSettings": {
+                    "filterType": 1,
+                    "simple": {
+                        "strength": 0.23999999463558198,
+                        "numLayers": 1,
+                        "baseRoughness": 1.5399999618530274,
+                        "roughness": 1.2599999904632569,
+                        "persistence": 0.4399999976158142,
+                        "centre": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "minValue": 0.0
+                    },
+                    "ridgid": {
+                        "strength": 0.23999999463558198,
+                        "numLayers": 1,
+                        "baseRoughness": 1.5399999618530274,
+                        "roughness": 1.2599999904632569,
+                        "persistence": 0.4399999976158142,
+                        "centre": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "minValue": 0.0,
+                        "weightMultiplier": 0.5799999833106995
+                    }
+                }
+            }
+        ],
+        "colorSettings": {
+            "debugMode": false,
+            "oceanSettings": {
+                "oceanGradient": {
+                    "colorKeys": [
+                        {
+                            "color": {
+                                "r": 0.0,
+                                "g": 0.357118159532547,
+                                "b": 1.0,
+                                "a": 1.0
+                            },
+                            "time": 0.8034027814865112
+                        },
+                        {
+                            "color": {
+                                "r": 0.0,
+                                "g": 0.648922324180603,
+                                "b": 1.0,
+                                "a": 1.0
+                            },
+                            "time": 1.0
+                        }
+                    ],
+                    "alphaKeys": [
+                        {
+                            "alpha": 1.0,
+                            "time": 0.8034027814865112
+                        },
+                        {
+                            "alpha": 1.0,
+                            "time": 1.0
+                        }
+                    ],
+                    "mode": 0
+                },
+                "oceanNormalMapName": "Normal Map 1",
+                "waveSpeed": 0.019999999552965165,
+                "waveScale": 0.30000001192092898,
+                "normalStrength": 1.0
+            },
+            "biomeSettings": {
+                "blendAmount": 0.3169115483760834,
+                "biomes": [
+                    {
+                        "tint": {
+                            "r": 1.0,
+                            "g": 1.0,
+                            "b": 1.0,
+                            "a": 1.0
+                        },
+                        "startHeight": 0.07400000095367432,
+                        "gradient": {
+                            "colorKeys": [
+                                {
+                                    "color": {
+                                        "r": 0.0313725508749485,
+                                        "g": 0.04313725605607033,
+                                        "b": 0.062745101749897,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.0
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.1568627506494522,
+                                        "g": 0.1921568661928177,
+                                        "b": 0.239215686917305,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.14750896394252778
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.23529411852359773,
+                                        "g": 0.27843138575553896,
+                                        "b": 0.3294117748737335,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.3486228585243225
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.23529411852359773,
+                                        "g": 0.27843138575553896,
+                                        "b": 0.3294117748737335,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.6033569574356079
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.3529411852359772,
+                                        "g": 0.4000000059604645,
+                                        "b": 0.45098039507865908,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.8625620007514954
+                                }
+                            ],
+                            "alphaKeys": [
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.0
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.14750896394252778
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.3486228585243225
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.6033569574356079
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.8625620007514954
+                                }
+                            ],
+                            "mode": 0
+                        }
+                    },
+                    {
+                        "tint": {
+                            "r": 0.0,
+                            "g": 1.0,
+                            "b": 0.018480300903320314,
+                            "a": 1.0
+                        },
+                        "startHeight": 0.16441603004932404,
+                        "gradient": {
+                            "colorKeys": [
+                                {
+                                    "color": {
+                                        "r": 0.0470588244497776,
+                                        "g": 0.07058823853731156,
+                                        "b": 0.09019608050584793,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.0
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.11764705926179886,
+                                        "g": 0.16470588743686677,
+                                        "b": 0.20000000298023225,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.25923553109169009
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.20392157137393952,
+                                        "g": 0.27450981736183169,
+                                        "b": 0.32156863808631899,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.4737468659877777
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.3529411852359772,
+                                        "g": 0.4470588266849518,
+                                        "b": 0.501960813999176,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.764232873916626
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.5568627715110779,
+                                        "g": 0.6549019813537598,
+                                        "b": 0.7098039388656616,
+                                        "a": 1.0
+                                    },
+                                    "time": 1.0
+                                }
+                            ],
+                            "alphaKeys": [
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.0
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.25923553109169009
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.4737468659877777
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.764232873916626
+                                },
+                                {
+                                    "alpha": 0.9905612468719482,
+                                    "time": 1.0
+                                }
+                            ],
+                            "mode": 0
+                        }
+                    },
+                    {
+                        "tint": {
+                            "r": 1.0,
+                            "g": 0.0,
+                            "b": 0.0,
+                            "a": 1.0
+                        },
+                        "startHeight": 0.6208813190460205,
+                        "gradient": {
+                            "colorKeys": [
+                                {
+                                    "color": {
+                                        "r": 0.3686274588108063,
+                                        "g": 0.45098039507865908,
+                                        "b": 0.501960813999176,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.0
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.49803921580314639,
+                                        "g": 0.5843137502670288,
+                                        "b": 0.6392157077789307,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.46480506658554079
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.6352941393852234,
+                                        "g": 0.7058823704719544,
+                                        "b": 0.7490196228027344,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.6971999406814575
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.7647058963775635,
+                                        "g": 0.8156862854957581,
+                                        "b": 0.8470588326454163,
+                                        "a": 1.0
+                                    },
+                                    "time": 0.8715037703514099
+                                },
+                                {
+                                    "color": {
+                                        "r": 0.8470588326454163,
+                                        "g": 0.8823529481887817,
+                                        "b": 0.9019607901573181,
+                                        "a": 1.0
+                                    },
+                                    "time": 1.0
+                                }
+                            ],
+                            "alphaKeys": [
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.0
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.46480506658554079
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.6971999406814575
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 0.8715037703514099
+                                },
+                                {
+                                    "alpha": 1.0,
+                                    "time": 1.0
+                                }
+                            ],
+                            "mode": 0
+                        }
+                    }
+                ],
+                "temperatureNoise": {
+                    "filterType": 0,
+                    "simple": {
+                        "strength": -0.25,
+                        "numLayers": 3,
+                        "baseRoughness": 2.200000047683716,
+                        "roughness": 1.8600000143051148,
+                        "persistence": 3.119999885559082,
+                        "centre": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "minValue": 0.0
+                    },
+                    "ridgid": {
+                        "strength": 0.0,
+                        "numLayers": 0,
+                        "baseRoughness": 0.0,
+                        "roughness": 0.0,
+                        "persistence": 0.0,
+                        "centre": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "minValue": 0.0,
+                        "weightMultiplier": 0.0
+                    }
+                }
+            },
+            "sand": {
+                "enabled": false,
+                "textureName": "coast_sand_01_diff_4k",
+                "normalMapName": "coast_sand_01_nor_gl_4k",
+                "roughnessMapName": "coast_sand_01_rough_4k",
+                "normalStrength": 0.6983101963996887,
+                "tiling": 0.20000000298023225
+            },
+            "grass": {
+                "enabled": false,
+                "textureName": "forrest_ground_01_diff_4k",
+                "normalMapName": "forrest_ground_01_nor_gl_4k",
+                "roughnessMapName": "forrest_ground_01_rough_4k",
+                "normalStrength": 0.7055091857910156,
+                "tiling": 0.20000000298023225
+            },
+            "mountain": {
+                "enabled": false,
+                "textureName": "rocks_ground_06_diff_4k",
+                "normalMapName": "rocks_ground_06_nor_gl_4k",
+                "roughnessMapName": "rocks_ground_06_rough_4k",
+                "normalStrength": 0.7043707966804504,
+                "tiling": 0.20000000298023225
+            },
+            "snow": {
+                "enabled": true,
+                "textureName": "snow_02_diff_4k",
+                "normalMapName": "snow_02_nor_gl_4k",
+                "roughnessMapName": "snow_02_rough_4k",
+                "normalStrength": 0.6957319974899292,
+                "tiling": 0.20000000298023225
+            }
+        }
+    }
+}
