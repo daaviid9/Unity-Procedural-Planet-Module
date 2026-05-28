@@ -109,7 +109,7 @@ namespace ProceduralPlanet
 
         private void Update()
         {
-            if (viewer == null || terrainFaces == null || terrainFaces.Length == 0 || meshFilters == null || !HasValidGenerationSettings(false))
+            if (!autoUpdate || viewer == null || terrainFaces == null || terrainFaces.Length == 0 || meshFilters == null || !HasValidGenerationSettings(false))
             {
                 return;
             }

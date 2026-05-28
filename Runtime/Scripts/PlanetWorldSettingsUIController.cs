@@ -87,7 +87,7 @@ namespace ProceduralPlanet
             if (isRefreshingUi || planet == null) return;
 
             PlanetLodPresetUtility.ApplyPreset(planet, index);
-            if (planet.autoUpdate) planet.GeneratePlanet();
+            planet.GeneratePlanet();
             SetStatus($"LOD: {PlanetLodPresetUtility.GetPresetName(index)}");
         }
 
