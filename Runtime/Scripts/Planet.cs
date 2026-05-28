@@ -78,6 +78,10 @@ namespace ProceduralPlanet
 
         private NativeArray<NoiseLayerStruct> shapeLayersNative;
         private NativeArray<BiomeStruct> biomesNative;
+        private float generatedPlanetRadius = 1f;
+        private float generatedBiomeBlendAmount;
+        private NoiseLayerStruct generatedTemperatureNoiseSettings;
+        private bool hasGeneratedLodSettings;
 
         private void Awake()
         {
@@ -109,17 +113,31 @@ namespace ProceduralPlanet
 
         private void Update()
         {
-            if (!autoUpdate || viewer == null || terrainFaces == null || terrainFaces.Length == 0 || meshFilters == null || !HasValidGenerationSettings(false))
+            if (viewer == null || terrainFaces == null || terrainFaces.Length == 0 || meshFilters == null)
             {
                 return;
             }
 
-            UpdateSettingsNative();
-            UpdateVisibleFaceLod();
+            UpdateVisibleFaceLod(MaxFacesUpdatedPerFrame);
         }
 
-        private void UpdateVisibleFaceLod()
+        public bool RefreshLodForCurrentView()
         {
+            if (viewer == null || terrainFaces == null || terrainFaces.Length == 0 || meshFilters == null)
+            {
+                return false;
+            }
+
+            return UpdateVisibleFaceLod(FaceCount) > 0;
+        }
+
+        private int UpdateVisibleFaceLod(int maxFacesToUpdate)
+        {
+            if (!hasGeneratedLodSettings || !shapeLayersNative.IsCreated || !biomesNative.IsCreated)
+            {
+                return 0;
+            }
+
             int facesUpdatedThisFrame = 0;
 
             for (int i = 0; i < FaceCount; i++)
@@ -130,23 +148,25 @@ namespace ProceduralPlanet
                 }
 
                 int targetResolution = GetTargetResolutionForFace(i);
-                if (terrainFaces[i].resolution_property == targetResolution || facesUpdatedThisFrame >= MaxFacesUpdatedPerFrame)
+                if (terrainFaces[i].resolution_property == targetResolution || facesUpdatedThisFrame >= maxFacesToUpdate)
                 {
                     continue;
                 }
 
                 terrainFaces[i].UpdateResolution(targetResolution);
-                terrainFaces[i].ConstructMesh(shapeLayersNative, biomesNative, GetTempNoiseStruct(), colorSettings.biomeSettings.blendAmount, shapeSettings.planetRadius);
+                terrainFaces[i].ConstructMesh(shapeLayersNative, biomesNative, generatedTemperatureNoiseSettings, generatedBiomeBlendAmount, generatedPlanetRadius);
 
                 // Reuse the current height range to avoid visible flicker during LOD updates.
                 terrainFaces[i].UpdateUVs(shapeGenerator.minElevationHeight, shapeGenerator.maxElevationHeight);
                 facesUpdatedThisFrame++;
             }
+
+            return facesUpdatedThisFrame;
         }
 
         private int GetTargetResolutionForFace(int faceIndex)
         {
-            Vector3 faceWorldCenter = transform.TransformPoint(terrainFaces[faceIndex].localup_for_lod * shapeSettings.planetRadius);
+            Vector3 faceWorldCenter = transform.TransformPoint(terrainFaces[faceIndex].localup_for_lod * generatedPlanetRadius);
             float distanceToViewer = Vector3.Distance(faceWorldCenter, viewer.position);
 
             Vector3 dirToFace = (faceWorldCenter - transform.position).normalized;
@@ -239,7 +259,7 @@ namespace ProceduralPlanet
             };
         }
 
-        private NoiseLayerStruct GetTempNoiseStruct()
+        private NoiseLayerStruct BuildTemperatureNoiseStruct()
         {
             NoiseSettings.SimpleNoiseSettings settings = colorSettings.biomeSettings.temperatureNoise.simpleNoiseSettings;
             return new NoiseLayerStruct
@@ -417,6 +437,7 @@ namespace ProceduralPlanet
         private void GenerateMesh()
         {
             UpdateSettingsNative();
+            CacheGeneratedLodSettings();
             shapeGenerator.minElevationHeight = float.MaxValue;
             shapeGenerator.maxElevationHeight = float.MinValue;
 
@@ -424,7 +445,7 @@ namespace ProceduralPlanet
             {
                 if (meshFilters[i].gameObject.activeSelf)
                 {
-                    terrainFaces[i].ConstructMesh(shapeLayersNative, biomesNative, GetTempNoiseStruct(), colorSettings.biomeSettings.blendAmount, shapeSettings.planetRadius);
+                    terrainFaces[i].ConstructMesh(shapeLayersNative, biomesNative, generatedTemperatureNoiseSettings, generatedBiomeBlendAmount, generatedPlanetRadius);
                 }
             }
 
@@ -458,6 +479,14 @@ namespace ProceduralPlanet
             PassTerrainTextureSettings("_Mountain", colorSettings.mountain);
             PassTerrainTextureSettings("_Snow", colorSettings.snow);
             PassTextureTransitionSettings();
+        }
+
+        private void CacheGeneratedLodSettings()
+        {
+            generatedPlanetRadius = shapeSettings.planetRadius;
+            generatedBiomeBlendAmount = colorSettings.biomeSettings.blendAmount;
+            generatedTemperatureNoiseSettings = BuildTemperatureNoiseStruct();
+            hasGeneratedLodSettings = true;
         }
 
         private void PassTextureTransitionSettings()

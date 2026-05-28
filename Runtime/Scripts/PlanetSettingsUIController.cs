@@ -224,7 +224,7 @@ namespace ProceduralPlanet
             }
 
             ApplyLodQualityPreset(index);
-            planet.GeneratePlanet();
+            planet.RefreshLodForCurrentView();
 
             SetStatus($"LOD preset: {GetLodPresetName(index)}");
         }
