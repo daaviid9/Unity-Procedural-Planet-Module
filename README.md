@@ -43,7 +43,9 @@ A modular Unity package for generating high-quality procedural planets with LOD 
 ## Technical Details
 - **Namespace**: `ProceduralPlanet`
 - **Assembly**: `ProceduralPlanet.Runtime`, `ProceduralPlanet.Editor`
-- **Unity Version**: 2020.3+
+- **Unity Version**: 6000.0+
 
 ## License
-MIT License - Created for Bachelor's Thesis project.
+Project code is provided under the MIT License and was created as part of a Bachelor's Thesis project.
+
+The `Runtime/Scripts/Noise.cs` file contains libnoise-dotnet/simplex-noise-derived code and keeps its original LGPL notice in the source file. Third-party textures, fonts, icons, and Unity packages must keep their original licenses and attribution in the final thesis submission.

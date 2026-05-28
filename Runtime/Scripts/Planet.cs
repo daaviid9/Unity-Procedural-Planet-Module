@@ -74,6 +74,7 @@ namespace ProceduralPlanet
         [SerializeField, HideInInspector]
         private MeshFilter[] meshFilters;
         private TerrainFace[] terrainFaces;
+        private Texture2D generatedGradientTexture;
 
         private NativeArray<NoiseLayerStruct> shapeLayersNative;
         private NativeArray<BiomeStruct> biomesNative;
@@ -108,7 +109,7 @@ namespace ProceduralPlanet
 
         private void Update()
         {
-            if (viewer == null || terrainFaces == null || terrainFaces.Length == 0 || meshFilters == null)
+            if (viewer == null || terrainFaces == null || terrainFaces.Length == 0 || meshFilters == null || !HasValidGenerationSettings(false))
             {
                 return;
             }
@@ -206,11 +207,21 @@ namespace ProceduralPlanet
 
         private NoiseLayerStruct BuildNoiseLayerStruct(ShapeSettings.NoiseLayer layer)
         {
+            if (layer == null || layer.noiseSettings == null)
+            {
+                return new NoiseLayerStruct { enabled = false, weightMultiplier = 1f };
+            }
+
             NoiseSettings settings = layer.noiseSettings;
             bool isRidgid = settings.filterType == NoiseSettings.FilterType.Ridgid;
             NoiseSettings.SimpleNoiseSettings values = isRidgid
                 ? settings.ridgidNoiseSettings
                 : settings.simpleNoiseSettings;
+
+            if (values == null)
+            {
+                return new NoiseLayerStruct { enabled = false, weightMultiplier = 1f };
+            }
 
             return new NoiseLayerStruct
             {
@@ -246,6 +257,11 @@ namespace ProceduralPlanet
 
         public void GeneratePlanet()
         {
+            if (!HasValidGenerationSettings(true))
+            {
+                return;
+            }
+
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             Initialize();
@@ -268,7 +284,7 @@ namespace ProceduralPlanet
         {
             lastGenerationTimeMs = (float)stopwatch.Elapsed.TotalMilliseconds;
             lastGeneratedFaceCount = CountActiveFaces();
-            lastGeneratedVertexCount = lastGeneratedFaceCount * resolution * resolution;
+            lastGeneratedVertexCount = CountGeneratedVertices();
 
             if (logGenerationTime)
             {
@@ -294,6 +310,22 @@ namespace ProceduralPlanet
             }
 
             return activeFaces;
+        }
+
+        private int CountGeneratedVertices()
+        {
+            if (meshFilters == null) return 0;
+
+            int vertexCount = 0;
+            for (int i = 0; i < meshFilters.Length; i++)
+            {
+                if (meshFilters[i] != null && meshFilters[i].gameObject.activeSelf && meshFilters[i].sharedMesh != null)
+                {
+                    vertexCount += meshFilters[i].sharedMesh.vertexCount;
+                }
+            }
+
+            return vertexCount;
         }
 
         private void Initialize()
@@ -408,12 +440,13 @@ namespace ProceduralPlanet
         private void GenerateColors()
         {
             if (colorGenerator == null) colorGenerator = new ColorGenerator(colorSettings);
-            Texture2D gradientTexture = colorGenerator.GenerateGradientTexture(shapeGenerator);
+            DestroyGeneratedGradientTexture();
+            generatedGradientTexture = colorGenerator.GenerateGradientTexture(shapeGenerator);
 
             planetMaterial.SetFloat("_MinHeight", shapeGenerator.minElevationHeight);
             planetMaterial.SetFloat("_MaxHeight", shapeGenerator.maxElevationHeight);
             planetMaterial.SetFloat("_PlanetRadius", shapeSettings.planetRadius);
-            planetMaterial.SetTexture("_PlanetGradientTexture", gradientTexture);
+            planetMaterial.SetTexture("_PlanetGradientTexture", generatedGradientTexture);
 
             planetMaterial.SetTexture("_OceanNormalMap", colorSettings.oceanSettings.oceanNormalMap);
             planetMaterial.SetFloat("_WaveSpeed", colorSettings.oceanSettings.waveSpeed);
@@ -472,6 +505,137 @@ namespace ProceduralPlanet
             if (shapeLayersNative.IsCreated) shapeLayersNative.Dispose();
             if (biomesNative.IsCreated) biomesNative.Dispose();
             ReleaseTerrainFaces();
+            DestroyGeneratedGradientTexture();
+        }
+
+        private bool HasValidGenerationSettings(bool logErrors)
+        {
+            if (resolution < 2)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: resolution must be at least 2.", this);
+                return false;
+            }
+
+            if (lodLevels != null)
+            {
+                for (int i = 0; i < lodLevels.Length; i++)
+                {
+                    if (lodLevels[i].resolution < 2)
+                    {
+                        if (logErrors) Debug.LogError($"Planet generation failed: LOD level {i} resolution must be at least 2.", this);
+                        return false;
+                    }
+                }
+            }
+
+            if (shapeSettings == null)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: ShapeSettings is not assigned.", this);
+                return false;
+            }
+
+            if (shapeSettings.noiseLayers == null)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: ShapeSettings has no noise layer array.", this);
+                return false;
+            }
+
+            for (int i = 0; i < shapeSettings.noiseLayers.Length; i++)
+            {
+                ShapeSettings.NoiseLayer layer = shapeSettings.noiseLayers[i];
+                if (layer == null || layer.noiseSettings == null)
+                {
+                    if (logErrors) Debug.LogError($"Planet generation failed: noise layer {i} is incomplete.", this);
+                    return false;
+                }
+
+                bool isRidgid = layer.noiseSettings.filterType == NoiseSettings.FilterType.Ridgid;
+                if (isRidgid && layer.noiseSettings.ridgidNoiseSettings == null)
+                {
+                    if (logErrors) Debug.LogError($"Planet generation failed: ridgid noise layer {i} has no settings.", this);
+                    return false;
+                }
+
+                if (!isRidgid && layer.noiseSettings.simpleNoiseSettings == null)
+                {
+                    if (logErrors) Debug.LogError($"Planet generation failed: simple noise layer {i} has no settings.", this);
+                    return false;
+                }
+            }
+
+            if (colorSettings == null)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: ColorSettings is not assigned.", this);
+                return false;
+            }
+
+            if (colorSettings.textureResolution < 2)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: color texture resolution must be at least 2.", this);
+                return false;
+            }
+
+            if (colorSettings.oceanSettings == null)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: ColorSettings has no ocean settings.", this);
+                return false;
+            }
+
+            if (colorSettings.biomeSettings == null)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: ColorSettings has no biome settings.", this);
+                return false;
+            }
+
+            if (colorSettings.biomeSettings.biomes == null || colorSettings.biomeSettings.biomes.Length == 0)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: at least one biome is required.", this);
+                return false;
+            }
+
+            for (int i = 0; i < colorSettings.biomeSettings.biomes.Length; i++)
+            {
+                ColorSettings.BiomeSettings.Biome biome = colorSettings.biomeSettings.biomes[i];
+                if (biome == null || biome.gradient == null)
+                {
+                    if (logErrors) Debug.LogError($"Planet generation failed: biome {i} is incomplete.", this);
+                    return false;
+                }
+            }
+
+            if (colorSettings.biomeSettings.temperatureNoise == null || colorSettings.biomeSettings.temperatureNoise.simpleNoiseSettings == null)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: temperature noise settings are incomplete.", this);
+                return false;
+            }
+
+            if (planetMaterial == null)
+            {
+                if (logErrors) Debug.LogError("Planet generation failed: Planet material is not assigned.", this);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void DestroyGeneratedGradientTexture()
+        {
+            if (generatedGradientTexture == null || generatedGradientTexture == Texture2D.blackTexture)
+            {
+                generatedGradientTexture = null;
+                return;
+            }
+
+            if (Application.isPlaying)
+            {
+                Destroy(generatedGradientTexture);
+            }
+            else
+            {
+                DestroyImmediate(generatedGradientTexture);
+            }
+
+            generatedGradientTexture = null;
         }
 
         public bool SavePresetToCurrentSlot()
