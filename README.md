@@ -13,14 +13,14 @@ A modular Unity package for generating high-quality procedural planets with LOD 
 ## Installation
 
 ### Via Git URL
-1. Open the Unity Package Manager (`Window > Package Manager`).
-2. Click the `+` icon and select `Add package from git URL...`.
+1. Open the Unity Package Manager (`Window > Package Management > Package Manager`).
+2. Click the `+` icon and select `Install package from git URL...`.
 3. Paste the URL of this repository.
 
 ### Via Local Disk
 1. Download or clone this repository to your machine.
-2. In the Unity Package Manager, click `+` and select `Add package from disk...`.
-3. Select the `package.json` file inside the `ProceduralPlanet` folder.
+2. In the Unity Package Manager, click `+` and select `Install package from disk...`.
+3. Select the `package.json` file inside the `UnityProceduralPlanetModule` folder.
 
 ## Quick Start Guide
 
